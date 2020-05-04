@@ -17,3 +17,4 @@ final_data <- cbind(data, dateTime) %>%
 
 rm("household_power_consumption")
 rm("data")
+rm("dateTime")
