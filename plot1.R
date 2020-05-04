@@ -1,0 +1,21 @@
+library(lubridate)
+library(readr)
+library(tidyverse)
+household_power_consumption <- read_delim("~/Downloads/household_power_consumption.txt", 
+                                          ";", escape_double = FALSE, trim_ws = TRUE, na = c("?", NA))
+
+
+data <- household_power_consumption %>%
+  mutate(Date = as.Date(Date, format = "%d/%m/%Y")) %>%
+  filter(Date %in% as.Date(c("2007-02-01", "2007-02-02")))
+
+dateTime <- strptime(paste(data$Date, data$Time, sep = " "), format = "%Y-%m-%d %H:%M:%S")
+
+final_data <- cbind(data, dateTime)
+
+rm("household_power_consumption")
+
+
+hist(final_data$Global_active_power, col = "red", main = "Global Active Power", xlab = "Global Active Power (Kilowatts)")
+dev.copy(png, file = "plot1.png")
+dev.off()
